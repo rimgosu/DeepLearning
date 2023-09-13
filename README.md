@@ -10,6 +10,7 @@
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/1d5fb433-4e4f-4277-b45f-9b402f87611f)
 
 ### 9월 13일 (머신러닝 복습, 텍스트 마이닝)
+> ex01. TextMining(영화리뷰 감성분석)
 #### 머신러닝 종류
 1. 지도학습
    - 분류(ㅂ) : 정답 데이터가 범주형(ㅂ), <br> class : 정답 데이터의 갯수 <br> ※로지스틱 회귀 : 분류모델(얜 특이하게회귀지만 분류모델임)
@@ -45,16 +46,30 @@
 1. 텍스트데이터 수집(크롤링)
 2. 텍스트 전처리
 3. 토큰화(벡터로 변환, 쪼개기 - 형태소 분석기) <br> a. 단어단위 <br> b. 문자단위 <br> c. n-gram 단위(n개의 연속된 단어를 하나로 취급) <br> ex) ICE/CREAM => ICECREAM <br><br>
+4. 특징 값 추출(중요한 단어 추출) <br> TF-IDF : "문서"내에서 중요한 단어여야함. <br>"모든문서" 내에서 중요한거 추출하면 a, the 와 같이 필요 없는 단어를 중요하다고 착각할 수 있음.
+5. 데이터 분석
 
-원 핫 인코딩 : <br> 1. CounterVectorize(단순 카운팅) <br> 2. TF-IDF(문서내 빈도수 확인)
+#### 토큰화
+
+##### 원핫 인코딩
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/e449eac1-40d8-49cd-aefa-e33780b6ca85)
 
-BOW : BAG OF WORDS
+
+
+
+##### TF-IDF
+개별 문서에서 자주 등장하는 단어에는 높은 가중치를 주되, 모든 문서에 자주 등장하는 단어에는 패널티 <br>
+TF : 단어가 각 문서에서 발생한 빈도 <br>
+DF : 단어 X가 포함된 문서의 수
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/c4a64ec7-bfde-47bf-9223-382c1b25c62c)
+
+##### BOW : BAG OF WORDS
+CounterVectorize(단순 카운팅) : 빈도 수 기반
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/214c19d0-7a5a-40b6-9d61-84d7af8065eb)
 
 
-4. 특징 값 추출(중요한 단어 추출) <br> TF-IDF : "문서"내에서 중요한 단어여야함. <br>"모든문서" 내에서 중요한거 추출하면 a, the 와 같이 필요 없는 단어를 중요하다고 착각할 수 있음.
-5. 데이터 분석
+
 
 
 
