@@ -62,16 +62,77 @@
 TF : 단어가 각 문서에서 발생한 빈도 <br>
 DF : 단어 X가 포함된 문서의 수
 
-![image](https://github.com/rimgosu/DeepLearning/assets/120752098/c4a64ec7-bfde-47bf-9223-382c1b25c62c)
-
 ##### BOW : BAG OF WORDS
 CounterVectorize(단순 카운팅) : 빈도 수 기반
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/214c19d0-7a5a-40b6-9d61-84d7af8065eb)
 
 
 
+### 9월 14일 (텍스트마이닝, 딥러닝 개요)
+> ex01. TextMining(영화리뷰 감성분석)
+
+#### 전처리 고급기술
+```
+txt_train = [i.replace(b'<br />', b'') for i in txt_train]
+```
+- 대입변수명 =[누적하고싶은 결과값 for i in 대상범위]
+- b'' : byte 문자열을 의미한다. 인코딩을 하지 않아 속도가 빠른 대신, b''로 써줘야함.
 
 
+#### CountVectorizer
+- 빈도수 기반 벡터화 도구
+- 오직 띄어쓰기만을 기준으로 하여 단어를 자른 후에 BOW를 만듦!
+```
+from sklearn.feature_extraction.text import CountVectorizer
+
+# 단어사전 구축
+vect = CountVectorizer()
+vect.fit(test_words)
+print(vect.vocabulary_)
+
+# 단어사전을 바탕으로 벡터값 바꾸기
+vect.transform(test_words)
+vect.transform(test_words).toarray() # 확인
+```
+
+#### LogisticRegression 
+- CountVectorizer에서의 LogisticRegression
+```
+# 로지스텍 모델 생성
+logi = LogisticRegression()
+logi.fit(X_train, y_train)
+logi.score(X_test,y_test)
+
+# 예측
+data = rv_vect.transform(data)
+pre = logi.predict(data1)
+```
+
+
+
+#### TF-IDF
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/c4a64ec7-bfde-47bf-9223-382c1b25c62c)
+- TF-IDF(Term Frequency - Inverse Document Frequency)
+- 단어의 중요도를 확인할 때 단순 카운트 기반이 아닌, 모든 문서를 확인 한 후에 특정 문서에만 자주 등장하는 단어들은 가중치를 부여하는 방식이다
+- TF : 하나의 문서에 등장하는 횟수
+- DF : 전체의 문서에 등장하는 횟수
+- 결과값이 클수록 중요도가 높은단어, 결과값이 낮을수록 중요도가 낮은 단어!
+
+```
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf_vect = TfidfVectorizer()
+tfidf_vect.fit(corpus) # corpus : 문자열 데이터
+
+tfidf_vect.vocabulary_ # 단어사전 보기
+tfidf_vect.transform(corpus).toarray() # 벡터화수치 보기
+
+```
+
+
+
+#### 딥러닝 개요
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/e9e2de28-213c-476a-9f61-7cb60b9a9468)
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/277c10f3-bfa3-487a-a0e8-23f6202f3034)
 
 
 
