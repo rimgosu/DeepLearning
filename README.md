@@ -98,7 +98,7 @@ vect.transform(test_words).toarray() # 확인
 #### LogisticRegression 
 - CountVectorizer에서의 LogisticRegression
 ```
-# 로지스텍 모델 생성
+# 로지스틱 모델 생성
 logi = LogisticRegression()
 logi.fit(X_train, y_train)
 logi.score(X_test,y_test)
@@ -129,7 +129,6 @@ tfidf_vect.transform(corpus).toarray() # 벡터화수치 보기
 ```
 
 
-
 #### 딥러닝 개요
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/e9e2de28-213c-476a-9f61-7cb60b9a9468)
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/277c10f3-bfa3-487a-a0e8-23f6202f3034)
@@ -137,7 +136,112 @@ tfidf_vect.transform(corpus).toarray() # 벡터화수치 보기
 
 
 
+### 9월 15일 
+> ex00. 딥러닝 맛보기.ipynb
+
+#### 교차엔트로피 (cross entrophy)
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/0fa36354-4cd7-41b2-90bf-a87cc95540eb)
 
 
+- 회귀에서는 오차를 MSE로 분류하지만, 분류에서 오차를 교차엔트로피를 활용해 구한다.
+- └ (틀릴 때 오차를 증폭시키는 함수를 이용한다.)
+
+
+
+#### 딥러닝 프레임워크
+
+1. tensorflow
+   - 구글이 만든 딥러닝을 위한 라이브러리
+
+2. keras
+   - tensorflow 위에서 동작하는 라이브러리 (사용자 친화적 = 쉬움)
+  
+
+> 케라스(Keras)는 TensorFlow, Theano, CNTK 등 딥 러닝 라이브러리를 백엔드로 사용하여 쉽게 다층 퍼셉트론 신경망 모델, 컨볼루션 신경망 모델, 순환 신경망 모델, 조합 모델 등을 구성할 수 있다. <br><br>
+>2017년, 구글은 TensorFlow 2.0부터는 코어 레벨에서 Keras를 지원하도록 변경하겠다고 발표하였고, 현재 발표된 TensorFlow 2.0 stable부터는 사실상 전부 Keras를 통해서만 동작하도록 바뀌었다. 사용자용 튜토리얼 페이지 1.15부터 deprecated 목록에 들어가 있던 자잘한 API가 대부분 정리되었고, 익숙되면 조금 더 편하게 사용할 수 있게 변했다. 하지만 그동안 익숙하게 사용해 왔던 모델을 만든 다음 session을 만들어 동작하는 구조에 익숙하던 사람들에게 멘붕을 준 것은 덤.
+
+
+#### colab
+- 마운트 필요.
+- 마운트 해야 파일 드라이브에 저장해두고 영구적으로 사용 가능.
+- mount 성공 시 "drive" 폴더가 생성됨.
+
+1. 마운트 버튼 클릭
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/e301ec7c-48bc-4097-b206-6f4a068d569d)
+
+2. 다음 코드 실행
+```
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+
+#### colab 단축키
+- 실행단축키
+  - ctrl + Enter : 실행 후 커서가 그대로 위치
+  - shift + Enter : 실행 후 커서 아래 셀로 이동
+  - alt + Enter : 실행 후 아래 셀 생성 아래셀 이동
+
+- 마크다운 변환 (코드 -> 텍스트)
+  - ctrl + m + m
+
+- 코드 모드로 변환 (텍스트 -> 코드)
+  - ctrl + m + y
+
+- 셀 아래에 추가하기
+  - ctrl + m + b
+
+- 셀 위에 추가하기
+  - ctrl + m + a
+
+* 더 많은 단축키 : 도구 - 단축키
+
+
+
+#### tensorflow
+```
+# tensorflow 버전 확인
+import tensorflow as tf
+print(tf.__version__)
+```
+
+```
+# %cd : 작업 경로를 영구히 바꿈.
+%cd "/content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)"
+```
+
+```
+# delimiter=';' : 구분자 표시
+data = pd.read_csv('./data/student-mat.csv', delimiter=';')
+```
+
+
+#### git (TODO)
+```
+# git과 연동
+!git clone https://rimgosu:토큰입력@github.com/rimgosu/ColabBackup.git
+!git config --global user.email 'newnyup@gmail.com'
+!git config --global user.name 'rimgosu'
+```
+```
+%cd /content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)/ColabBackup
+!git add --all
+!git commit -m "$(date)"
+!git push
+```
+
+#### deeplearning (성적데이터)
+```
+# 기존 머신러닝 모델 흐름
+# 1. 모델 생성
+linear_model = LinearRegression()
+# 2. 모델 학습
+linear_model.fit(X_train.values.reshape(-1,1), y_train)
+# 3. 모델 예측
+linear_pre = linear_model.predict(X_test.values.reshape(-1,1))
+# 4. 모델 평가
+mean_squared_error(y_test, linear_pre)
+```
 
 
