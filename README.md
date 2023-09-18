@@ -217,21 +217,7 @@ data = pd.read_csv('./data/student-mat.csv', delimiter=';')
 ```
 
 
-#### git (TODO)
-```
-# git과 연동
-!git clone https://rimgosu:토큰입력@github.com/rimgosu/ColabBackup.git
-!git config --global user.email 'newnyup@gmail.com'
-!git config --global user.name 'rimgosu'
-```
-```
-%cd /content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)/ColabBackup
-!git add --all
-!git commit -m "$(date)"
-!git push
-```
-
-#### deeplearning (성적데이터)
+#### 기존 머신러닝 (성적데이터)
 ```
 # 기존 머신러닝 모델 흐름
 # 1. 모델 생성
@@ -243,5 +229,40 @@ linear_pre = linear_model.predict(X_test.values.reshape(-1,1))
 # 4. 모델 평가
 mean_squared_error(y_test, linear_pre)
 ```
+
+
+
+
+### 9월 18일
+> ex00. 딥러닝 맛보기.ipynb
+
+
+#### 딥러닝 (성적데이터)
+```
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import InputLayer, Dense, Activation
+```
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/a743b499-5294-4af1-a5d3-85ec84984f77)
+```
+# 1. 신경망 구조 설계
+# 뼈대 생성
+model = Sequential()
+# 입력층
+model.add(InputLayer(input_shape=(1,))) # 입력특성의 개수를 지정 (studytime 1개)
+# 중간층 (은닉층)
+model.add(Dense(units=10)) # 뉴련 10개를 연결 -> 많을수록 좋음, 학습능력 결정하는 부분
+model.add(Activation('sigmoid')) # 활성화함수 : 인간의 모방을 위함 (위 선형 함수와 짝궁)
+# 출력층
+model.add(Dense(units=1)) # 예측할 데이터의 형태 (성적데이터 1개)
+```
+
+
+
+
+
+
+
+
 
 
