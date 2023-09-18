@@ -242,23 +242,43 @@ mean_squared_error(y_test, linear_pre)
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import InputLayer, Dense, Activation
 ```
-
-![image](https://github.com/rimgosu/DeepLearning/assets/120752098/a743b499-5294-4af1-a5d3-85ec84984f77)
+1. 신경망 구조 설계
 ```
-# 1. 신경망 구조 설계
 # 뼈대 생성
 model = Sequential()
 # 입력층
-model.add(InputLayer(input_shape=(1,))) # 입력특성의 개수를 지정 (studytime 1개)
+model.add(InputLayer(input_shape=(1,))) 
 # 중간층 (은닉층)
-model.add(Dense(units=10)) # 뉴련 10개를 연결 -> 많을수록 좋음, 학습능력 결정하는 부분
-model.add(Activation('sigmoid')) # 활성화함수 : 인간의 모방을 위함 (위 선형 함수와 짝궁)
+model.add(Dense(units=10))
+model.add(Activation('sigmoid'))
 # 출력층
-model.add(Dense(units=1)) # 예측할 데이터의 형태 (성적데이터 1개)
+model.add(Dense(units=1))
 ```
 
 
 
+2. 학습 및 평가 방법 설계
+```
+from scipy import optimize
+model.compile(
+    loss='mean_squared_error', 
+    optimizer='SGD', 
+    metrics=['mse']
+)
+```
+
+
+
+3. 모델학습
+```
+model.fit(X_train, y_train, validation_split=0.2, epochs= 20) 
+```
+
+
+4. 모델평가
+```
+model.evaluate(X_test,y_test)
+```
 
 
 
