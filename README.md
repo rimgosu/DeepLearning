@@ -271,7 +271,7 @@ model.compile(
 
 3. 모델학습
 ```
-model.fit(X_train, y_train, validation_split=0.2, epochs= 20) 
+model.fit(X_train, y_train, validation_split=0.2, epochs=20) 
 ```
 
 
@@ -284,5 +284,41 @@ model.evaluate(X_test,y_test)
 
 
 
+### 9월 18일
 
+> ex01. 유방암 데이터 분류(이진분류).ipynb
+
+
+```
+model = Sequential()
+
+# 입력층 - 학습 데이터의 컬럼이 30개라면 정확하게 "30"으로 지정해주어야 함model.add(InputLayer(input_shape=(30,)))
+
+# 중간층 (은닉층), units과 activation을 동시에 줄 수 있다.
+model.add(Dense(units=16, activation='sigmoid'))
+model.add(Dense(units=8, activation='sigmoid'))
+
+# 출력층 : 출력받고 싶은 데이터의 형태를 지정함(이진분류 1개의 확률값 0~1)
+model.add(Dense(units=1, activation='sigmoid'))
+```
+
+#### 퍼셉트론
+> 선형모델 + 활성화함수
+
+* 활성화 함수 (중간층, 출력층에서 사용)
+* 중간층 : 활성화/ 비활성화(역치)
+* 스텝 펑션 => 시그모이드 (왜? 최적화알고리즘 경사하강법을 적용하기 위해 기울기와 역치개념을 가지는 시그모이드 사용)
+
+- 출력층 : 최종 결과의 형태를 결정 <br> (내가 출력하고자 하는 형태에 따라 다르게 작성, units/activation)
+
+```
+# 손실함수로 cross entropy 사용
+# 이진분류이기 때문에 binary_crossentropy
+from scipy import optimize
+model.compile(
+    loss='binary_crossentropy',
+    optimizer='SGD',
+    metrics=['accuracy']
+)
+```
 
