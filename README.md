@@ -178,24 +178,8 @@ drive.mount('/content/drive')
 
 
 #### colab 단축키
-- 실행단축키
-  - ctrl + Enter : 실행 후 커서가 그대로 위치
-  - shift + Enter : 실행 후 커서 아래 셀로 이동
-  - alt + Enter : 실행 후 아래 셀 생성 아래셀 이동
 
-- 마크다운 변환 (코드 -> 텍스트)
-  - ctrl + m + m
-
-- 코드 모드로 변환 (텍스트 -> 코드)
-  - ctrl + m + y
-
-- 셀 아래에 추가하기
-  - ctrl + m + b
-
-- 셀 위에 추가하기
-  - ctrl + m + a
-
-* 더 많은 단축키 : 도구 - 단축키
+<table><thead><tr><th>기능</th><th>단축키</th></tr></thead><tbody><tr><td>실행 (커서 그대로 위치)</td><td>Ctrl + Enter</td></tr><tr><td>실행 후 아래 셀로 이동</td><td>Shift + Enter</td></tr><tr><td>실행 후 아래 셀 생성 및 이동</td><td>Alt + Enter</td></tr><tr><td>마크다운으로 셀 변환 (코드 -&gt; 텍스트)</td><td>Ctrl + M, M</td></tr><tr><td>코드 모드로 셀 변환 (텍스트 -&gt; 코드)</td><td>Ctrl + M, Y</td></tr><tr><td>아래에 셀 추가</td><td>Ctrl + M, B</td></tr><tr><td>위에 셀 추가</td><td>Ctrl + M, A</td></tr><tr><td>모든 단축키 목록 보기</td><td>Ctrl + M, H</td></tr></tbody></table>
 
 
 
