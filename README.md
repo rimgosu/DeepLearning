@@ -137,7 +137,7 @@ tfidf_vect.transform(corpus).toarray() # 벡터화수치 보기
 
 
 ### 9월 15일 
-> ex00. 딥러닝 맛보기.ipynb
+> [ex00. 딥러닝 맛보기.ipynb](https://github.com/rimgosu/ColabBackup/blob/master/ex00_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EB%A7%9B%EB%B3%B4%EA%B8%B0.ipynb)
 
 #### 교차엔트로피 (cross entrophy)
 
@@ -234,7 +234,7 @@ mean_squared_error(y_test, linear_pre)
 
 
 ### 9월 18일
-> ex00. 딥러닝 맛보기.ipynb
+> [ex00. 딥러닝 맛보기.ipynb](https://github.com/rimgosu/ColabBackup/blob/master/ex00_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EB%A7%9B%EB%B3%B4%EA%B8%B0.ipynb)
 
 
 #### 딥러닝 (성적데이터)
@@ -286,7 +286,7 @@ model.evaluate(X_test,y_test)
 
 ### 9월 18일
 
-> ex01. 유방암 데이터 분류(이진분류).ipynb
+> [ex01. 유방암 데이터 분류(이진분류).ipynb](https://github.com/rimgosu/ColabBackup/blob/master/ex01_%EC%9C%A0%EB%B0%A9%EC%95%94_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EB%A5%98(%EC%9D%B4%EC%A7%84%EB%B6%84%EB%A5%98).ipynb)
 
 
 ```
@@ -323,7 +323,7 @@ model.compile(
 ```
 
 ### 9월 19일
-> ex02. 손글씨데이터 분류.ipynb
+> [ex02. 손글씨데이터 분류.ipynb](https://github.com/rimgosu/ColabBackup/blob/master/ex02_%EC%86%90%EA%B8%80%EC%94%A8%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EB%A5%98.ipynb)
 
 #### 출력 형태에 따른 unit의 갯수
 - 회귀 : units =1
@@ -334,3 +334,78 @@ model.compile(
 - 회귀 : activation='linear' (항등함수, y=x 선형 모델이 예측한 데이터를 그대로 출력) 기본값, 적어주지 않아도 괜찮다
 - 이진분류 : activation='sigmoid' (0~1 사이의 확률값을 출력)
 - 다중분류 : activation='softmax' (클래스의 개수만큼 확률값을 출력 => 각각의 확률값의 총합이 1이 되도록 출력)
+<table><thead><tr><th>출력 형태</th><th>활성화 함수</th><th>손실 함수</th><th>설명</th></tr></thead><tbody><tr><td>회귀</td><td>Linear</td><td>Mean Squared Error (MSE)</td><td>항등함수를 사용한 회귀 모델에 주로 사용</td></tr><tr><td>이진 분류</td><td>Sigmoid</td><td>Binary Cross-Entropy (BCE)</td><td>0과 1 사이의 확률값을 출력하는 이진 분류 모델에 사용</td></tr><tr><td>다중 분류</td><td>Softmax</td><td>Categorical Cross-Entropy</td><td>다중 클래스 분류 모델에서 클래스 간의 교차 엔트로피 사용</td></tr></tbody></table>
+
+
+### 9월 20일
+> [ex02. 손글씨데이터 분류.ipynb](https://github.com/rimgosu/ColabBackup/blob/master/ex02_%EC%86%90%EA%B8%80%EC%94%A8%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%B6%84%EB%A5%98.ipynb)
+
+#### 범주형 데이터(Y) 학습
+```
+h1 = digit_model.fit(X_train,y_train,
+                     validation_split=0.2,
+                     epochs = 20)
+```
+> ValueError: Shapes (32, 1) and (32, 10) are incompatible
+
+
+- 방법1: 정답데이터를 확률로 변경
+
+정답 데이터를 확률 값으로 변경하는 방법입니다. 정답 데이터는 현재 클래스 중 하나를 나타내는 형태로 되어 있을 것이며, 모델의 출력은 10개의 클래스에 대한 확률값을 출력하고 있습니다. 이 두 형태를 호환시키기 위해 정답 데이터를 확률로 변환하여 모델과 비교할 수 있습니다. 이를 위해 원-핫 인코딩을 사용하거나 정답 클래스에 해당하는 확률을 1로, 나머지 클래스에는 0으로 설정하는 방법을 고려할 수 있습니다.
+```
+from tensorflow.keras.utils import to_categorical
+
+one_hot_y_train = to_categorical(y_train)
+one_hot_y_train[0:2]
+```
+
+
+- 방법2: loss 함수를 변경
+
+Keras는 다양한 loss 함수를 제공하며, 모델을 학습할 때 사용하는 loss 함수를 변경하여 이 문제를 해결할 수 있습니다. 예를 들어, categorical cross-entropy loss 함수를 사용하면 모델이 10개의 클래스에 대한 확률 분포를 출력하도록 모델을 학습할 수 있습니다. 이러한 loss 함수를 사용하면 모델이 확률로 출력하도록 자동으로 조정됩니다.
+따라서, 위의 오류를 해결하기 위해 두 가지 방법 중 하나를 선택하여 모델을 수정하면 됩니다.
+```
+digit_model.compile(loss = 'sparse_categorical_crossentropy',
+                    optimizer= 'SGD',
+                    metrics = ['accuracy'])
+```
+
+
+#### PIL
+- 파이썬 이미지 처리 라이브러리
+```
+# 파이썬에서 이미지를 처리하는 라이브러리
+import PIL.Image as pimg
+```
+
+```
+# 이미지 오픈, 흑백이미지로 변경
+img = pimg.open('/content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)/손글씨/0.png').convert('L')
+plt.imshow(img, cmap = 'gray')
+```
+
+```
+# predict
+digit_model.predict(test_img)
+```
+
+
+
+#### 오차역전파
+
+<table><thead><tr><th style="text-align: center;"><strong>과정</strong></th><th style="text-align: center;"><strong>설명</strong></th><th style="text-align: center;"><strong>목적</strong></th></tr></thead><tbody><tr><td style="text-align: center;">순전파 (Forward Propagation)</td><td style="text-align: center;">입력 데이터를 입력층에서 출력층까지 전달하여 예측 값을 계산하는 과정</td><td style="text-align: center;">출력 값을 <strong>추론</strong>하기 위함</td></tr><tr><td style="text-align: center;">역전파 (Backpropagation)</td><td style="text-align: center;">출력층에서 발생한 에러를 입력층까지 전파하여 가중치를 조정하는 과정</td><td style="text-align: center;">모델을 <strong>학습</strong>하여 최적의 결과 도출</td></tr></tbody></table>
+
+##### sigmoid 함수의 문제점
+- 기울기 소실 문제 발생
+- 한 번 층을 옮길 때마다 1/4(0.25)로 기울기가 줄어든다.
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/ee8b9e16-d6ab-4403-aad4-37b9215a98f0)
+
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/d55762aa-c8b4-4828-b1b9-4ba11c5e1d39)
+
+
+##### Relu
+- 기울기 소실 문제 해결
+
+
