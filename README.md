@@ -129,7 +129,7 @@ tfidf_vect.transform(corpus).toarray() # 벡터화수치 보기
 ```
 
 
-#### 딥러닝 개요
+## 딥러닝 개요
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/e9e2de28-213c-476a-9f61-7cb60b9a9468)
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/277c10f3-bfa3-487a-a0e8-23f6202f3034)
 
@@ -391,12 +391,17 @@ digit_model.predict(test_img)
 
 
 
-#### 오차역전파
+### 오차역전파
 
 <table><thead><tr><th style="text-align: center;"><strong>과정</strong></th><th style="text-align: center;"><strong>설명</strong></th><th style="text-align: center;"><strong>목적</strong></th></tr></thead><tbody><tr><td style="text-align: center;">순전파 (Forward Propagation)</td><td style="text-align: center;">입력 데이터를 입력층에서 출력층까지 전달하여 예측 값을 계산하는 과정</td><td style="text-align: center;">출력 값을 <strong>추론</strong>하기 위함</td></tr><tr><td style="text-align: center;">역전파 (Backpropagation)</td><td style="text-align: center;">출력층에서 발생한 에러를 입력층까지 전파하여 가중치를 조정하는 과정</td><td style="text-align: center;">모델을 <strong>학습</strong>하여 최적의 결과 도출</td></tr></tbody></table>
 
-##### sigmoid 함수의 문제점
-- 기울기 소실 문제 발생
+
+#### sigmoid, relu
+<table><thead><tr><th>함수</th><th>특징</th></tr></thead><tbody><tr><td>Step Function</td><td>- 미분 불가능 (기울기가 없음)</td></tr><tr><td></td><td>- 경사 하강법에 사용 불가능</td></tr><tr><td></td><td>- 입력값에 따라 0 또는 1을 출력 (이진 분류에 적합)</td></tr><tr><td>Sigmoid Function</td><td>- 매끄러운 곡선 형태</td></tr><tr><td></td><td>- 미분 가능하지만 기울기 소실 문제 발생</td></tr><tr><td></td><td>- 입력값이 크거나 작을 때 기울기가 0에 가깝게 수렴하여 학습이 어려워질 수 있음</td></tr><tr><td></td><td>- 확률값을 출력하는 데 주로 사용됨</td></tr><tr><td>ReLU (Rectified Linear Unit)</td><td>- 미분 가능하며 기울기 소실 문제를 줄일 수 있음</td></tr><tr><td></td><td>- 입력값이 양수인 경우 그대로 출력하고 음수인 경우 0으로 출력</td></tr><tr><td></td><td>- 학습이 빠르고 효과적일 수 있으며, 주로 은닉층의 활성화 함수로 사용됨</td></tr></tbody></table>
+
+##### Sigmoid
+- 'step function'은 경사하강법을 사용하지 못함(기울기 없기 때문)
+- 그러나 미분할 때 기울기 소실 문제 발생
 - 한 번 층을 옮길 때마다 1/4(0.25)로 기울기가 줄어든다.
 
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/ee8b9e16-d6ab-4403-aad4-37b9215a98f0)
@@ -407,5 +412,20 @@ digit_model.predict(test_img)
 
 ##### Relu
 - 기울기 소실 문제 해결
+
+```
+// 손글씨 'sigmoid' => 'relu'
+digit_model = Sequential()
+digit_model.add(InputLayer(input_shape = (28,28)))
+digit_model.add(Flatten()) 
+digit_model.add(Dense(units=16, activation='relu'))
+digit_model.add(Dense(units=8, activation='relu'))
+digit_model.add(Dense(units=32, activation='relu'))
+digit_model.add(Dense(units=16, activation='relu'))
+digit_model.add(Dense(units=8, activation='relu'))
+# 출력층
+digit_model.add(Dense(units=10, activation='softmax'))
+```
+
 
 
