@@ -293,6 +293,8 @@ model.add(Dense(units=1, activation='sigmoid'))
 * 중간층 : 활성화/ 비활성화(역치)
 * 스텝 펑션 => 시그모이드 (왜? 최적화알고리즘 경사하강법을 적용하기 위해 기울기와 역치개념을 가지는 시그모이드 사용)
 
+![img](https://github.com/rimgosu/DeepLearning/assets/120752098/1945462d-5fa8-44f5-8843-cd08ebabb52b)
+
 - 출력층 : 최종 결과의 형태를 결정 <br> (내가 출력하고자 하는 형태에 따라 다르게 작성, units/activation)
 
 ```
@@ -418,35 +420,107 @@ digit_model.add(Dense(units=10, activation='softmax'))
 
 
 ### 9월 22일
+> [ex03. 활성화함수, 최적화함수, callback함수.ipynb](https://colab.research.google.com/drive/1wQuM0n3Q1EyHuXU2UljGTsE2HMkbxKgN)
 #### 최적화 함수(optimizer)
 
 ![img (1)](https://github.com/rimgosu/DeepLearning/assets/120752098/0bda6ea7-bc2b-4846-bfe1-2f36a564116f)
 
 
 1. 경사하강법
-- 전체 데이터를 이용해 업데이트
+   - 전체 데이터를 이용해 업데이트
 
-![img](https://github.com/rimgosu/DeepLearning/assets/120752098/1945462d-5fa8-44f5-8843-cd08ebabb52b)
 
 2. 확률적경사하강법 (Stochastic Gradient Descent
-- 확률적으로 선택된 일부 데이터를 이용해 업데이트
-- 경사하강법보다 더 빨리, 더 자주 업데이트한다.
+   - 확률적으로 선택된 일부 데이터를 이용해 업데이트
+   - 경사하강법보다 더 빨리, 더 자주 업데이트한다.
 
 3. 모멘텀
-- 관성을 적용해 업데이트 현재 batch 뿐만 아니라 이전 batch 데이터의 학습 결과도 반영
-- `α : learning rate, m : 모멘텀 계수`
+   - 관성을 적용해 업데이트 현재 batch 뿐만 아니라 이전 batch 데이터의 학습 결과도 반영
+   - `α : learning rate, m : 모멘텀 계수`
 
 4. 네스테로프 모멘텀 (NAG)
-- 미리 해당 방향으로 이동한다고 가정하고 기울기를 계산해본 뒤 실제 업데이트 반영
+   - 미리 해당 방향으로 이동한다고 가정하고 기울기를 계산해본 뒤 실제 업데이트 반영
+
+5. adam
+   - 요즘 가장 각광받는 최적화 함수
 
 
+<table><thead><tr><th>조합</th><th>특징</th></tr></thead><tbody><tr><td><strong>sigmoid + SGD</strong></td><td>- 아주 낮은 정확도를 보임. &lt;br&gt; - Sigmoid 함수는 그래디언트 소실 문제가 발생할 수 있어, 딥 뉴럴 네트워크에서는 잘 활용되지 않습니다. &lt;br&gt; - SGD는 학습 속도가 느릴 수 있습니다.</td></tr><tr><td><strong>relu + SGD</strong></td><td>- 중간 정도의 정확도를 보임. &lt;br&gt; - ReLU는 그래디언트 소실 문제에 덜 민감하지만, SGD를 사용하면 여전히 학습 속도가 느릴 수 있습니다.</td></tr><tr><td><strong>relu + Adam</strong></td><td>- 가장 높은 정확도를 보임. &lt;br&gt; - ReLU와 Adam 조합은 그래디언트 소실 문제를 효과적으로 방지하고, Adam 최적화 알고리즘은 학습률 조절로 빠른 학습을 지원합니다.</td></tr></tbody></table>
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/6735ea4c-0ad3-4b56-8a11-6c396d2e5f92)
 
 
 
 
 ##### Batch_size
 - 일반적으로 PC 메모리의 한계 및 속도 저하 때문에 대부분의 경우에는 한번의 epoch에 모든 데이터를 한꺼번에 집어넣기가 힘듦
+- `epochs 당 학습 : train_data_size/batch_size `
+- batch size 32 : 1500/1500 => batch size 128 : 375/375
 
 ![image](https://github.com/rimgosu/DeepLearning/assets/120752098/39e6a0db-c051-4950-be15-e8936f1635f6)
+
+
+##### callback 함수
+- 모델저장 및 조기학습중단
+- 모델저장
+  - 딥러닝모델 학습시 지정된 epoch 를 다 끝내면 과대적합이 일어나는 경우가 있다 -> 중간에 일반화된 모델을 저장할 수 있는 기능!!
+- 조기학습 중단
+  - epoch 를 크게 설정할 경우 일정횟수 이상으로는 모델의 성능이 개선되지 않는 경우가 있다.  -> 시간낭비 -> 모델의 성능이 개선되지 않는 경우에는 조기중단이 필요
+
+1. 콜백함수 임포트 <br>
+`from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping`
+
+2. hdf5 파일(모델 로그) 경로 작성
+```
+model_path = '/content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)/data/digit_model/dm_{epoch:02d}_{val_accuracy:0.2f}.hdf5'
+```
+
+3. ModelCheckpoint
+
+```
+ModelCheckpoint(
+    filepath = model_path,
+    verbose = 1, 
+    save_best_only = True,
+    monitor = 'val_accuracy'
+)
+```
+
+4. EarlyStopping
+
+```
+model_path = '/content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)/data/digit_model/dm_{epoch:02d}_{val_accuracy:0.2f}.hdf5'
+mckp = ModelCheckpoint(
+    filepath = model_path,
+    verbose = 1, # 로그 출력, 1: 로그 출력 해주세요
+    save_best_only = True, # 모델 성능이 최고점을 갱신할 때마다 저장
+    monitor = 'val_accuracy' # 최고점의 기준치
+)
+```
+
+5. 학습 (callbacks = [mckp, early] 파라미터 추가)
+
+```
+h4 = model3.fit(
+    X_train,
+    y_train,
+    validation_split=0.2,
+    epochs = 1000,
+    batch_size=128,
+    callbacks = [mckp, early]
+)
+```
+
+6. 파일로 저장된 모델 불러오기
+```
+from tensorflow.keras.models import load_model
+
+best_model = load_model('/content/drive/MyDrive/Colab Notebooks/DeepLearning(Spring)/data/digit_model/dm_19_0.73.hdf5')
+``` 
+
+
+
+
+
 
 
