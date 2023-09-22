@@ -413,3 +413,40 @@ digit_model.add(Dense(units=10, activation='softmax'))
 
 
 
+
+
+
+
+### 9월 22일
+#### 최적화 함수(optimizer)
+
+![img (1)](https://github.com/rimgosu/DeepLearning/assets/120752098/0bda6ea7-bc2b-4846-bfe1-2f36a564116f)
+
+
+1. 경사하강법
+- 전체 데이터를 이용해 업데이트
+
+![img](https://github.com/rimgosu/DeepLearning/assets/120752098/1945462d-5fa8-44f5-8843-cd08ebabb52b)
+
+2. 확률적경사하강법 (Stochastic Gradient Descent
+- 확률적으로 선택된 일부 데이터를 이용해 업데이트
+- 경사하강법보다 더 빨리, 더 자주 업데이트한다.
+
+3. 모멘텀
+- 관성을 적용해 업데이트 현재 batch 뿐만 아니라 이전 batch 데이터의 학습 결과도 반영
+- `α : learning rate, m : 모멘텀 계수`
+
+4. 네스테로프 모멘텀 (NAG)
+- 미리 해당 방향으로 이동한다고 가정하고 기울기를 계산해본 뒤 실제 업데이트 반영
+
+
+
+
+
+
+##### Batch_size
+- 일반적으로 PC 메모리의 한계 및 속도 저하 때문에 대부분의 경우에는 한번의 epoch에 모든 데이터를 한꺼번에 집어넣기가 힘듦
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/39e6a0db-c051-4950-be15-e8936f1635f6)
+
+
