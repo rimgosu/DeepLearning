@@ -521,6 +521,140 @@ best_model = load_model('/content/drive/MyDrive/Colab Notebooks/DeepLearning(Spr
 
 
 
+### 9월 25일
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/39c4440e-8218-4c23-b291-86f133b74e6b)
+
+
+> [dogs_vs_cats_small](https://drive.google.com/drive/folders/1ciEeGooDZsZZ81UJibvSAUaLB1qi42ih) <br>
+> [ex04. 개 고양이 분류하기.ipynb](https://colab.research.google.com/drive/1AK7WZ7W1q4oUMXKpYf_LLJQBZHjGPmJo) <br>
+
+#### CNN(Convolution Neural Network)
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/82c841b6-afd7-42d9-a900-6bd9ad259c5d)
+
+1. 이미지 학습 가능 (2차원의 데이터도 학습)
+2. 데이터의 특징을 추출하고 추출된 특징을 기반으로 학습
+   - 이미지의 크기, 방향 등에 크게 관여하지 않는다
+3. CNN 층은 CONV LAYER, POOLING LAYER 있다.
+
+| Layer   | Function                                         |
+|---------|--------------------------------------------------|
+| CONV    | 특징을 찾는다.                                   |
+| POOLING | 특징이 아닌 부분을 찾아 해상도를 낮춘다.          |
+| DENSE   | 찾아진 특징을 토대로 사물을 구분할 규칙을 만든다. |
+
+
+#### cat vs dog 실습
+
+a. ImageDataGenerator
+   - 이미지 데이터를 생성하고 증강하기 위한 도구를 제공
+   - 이미지 데이터를 부풀리기 위해 사용
+
+```
+# 하나의 변수에 이미지 파일 전부다 합치기
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+```
+
+   1. 픽셀값 정규화 (0~255 → 0~1)
+```
+generator = ImageDataGenerator(rescale= 1./255)
+```
+
+   2. 하나의 변수에 이미지 파일 전부 담기
+      - target_size = (150,150) : 변환할 이미지의 크기
+      - class_mode = 'binary' : 라벨링 방법, 다중분류 : categorical
+```
+train_generator = generator.flow_from_directory(
+    directory = train_dir,
+    target_size = (150,150),
+    batch_size = 100,
+    class_mode = 'binary'
+)
+
+valid_generator = generator.flow_from_directory(
+    directory = valid_dir,
+    target_size = (150,150),
+    batch_size = 100, 
+    class_mode = 'binary'
+)
+```
+
+b. 모델 설계를 위한 라이브러리 불러오기
+```
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, Conv2D, MaxPool2D, Flatten
+```
+
+c. CNN 모델 설계
+   1. filter = 32 : 찾을 특징의 갯수
+   2. kernel_size = (3,3) : 특징의 크기
+   3. input_shape = (150,150,3) : 입력 데이터의 모양 (가로, 세로, RGB) 
+      - 0 : 검은색, 255 : 흰색
+      - 입구 : 첫 번째 Conv2D에만 지정해준다.
+
+```
+model1 = Sequential()
+
+model1.add(Conv2D(
+    filters = 32,
+    kernel_size = (3,3),
+    input_shape = (150,150,3),
+    activation = 'relu'
+))
+
+model1.add(MaxPool2D(
+    pool_size= (2,2)
+))
+
+model1.add(Conv2D(
+    filters = 32,
+    kernel_size = (3,3),
+    activation = 'relu'
+))
+
+model1.add(MaxPool2D(
+    pool_size= (2,2)
+))
+```
+
+d. 분류분석 & 출력
+   1. model1.add(Flatten()) : 특징추출부와 분류부를 이어주는 역할
+   2. model1.add(Dense(units = 32, activation = 'relu')) : Dense층 추가
+   3. model1.add(Dense(units= 1, activation = 'sigmoid')) : 출력층
+      - 이진 분류를 해야되므로 sigmoid를 쓴다.
+```
+model1.add(Flatten())
+model1.add(Dense(units = 32, activation = 'relu'))
+model1.add(Dense(units= 1, activation = 'sigmoid'))
+```
+
+e. 학습 방법 설정 (compile)
+```
+model1.compile(
+    loss = 'binary_crossentropy',
+    optimizer = 'Adam',
+    metrics = ['accuracy']
+)
+```
+
+f. 학습하기 (fit)
+   1. train_generator : 학습데이터 (X_train, y_train 합쳐져 있다)
+   2. valid_generator : 검증데이터 (X_val, y_val) 
+```
+model1.fit(
+    train_generator, 
+    epochs = 20,
+    validation_data = valid_generator
+)
+```
+
+
+
+
+
+
+
 
 
 
