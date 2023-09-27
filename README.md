@@ -650,11 +650,23 @@ model1.fit(
 ```
 
 
+### 9월 27일
 
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/fd85d080-ac41-48b1-b642-7b6548e39f97)
 
+> [ex04. 개 고양이 분류하기.ipynb](https://colab.research.google.com/drive/1AK7WZ7W1q4oUMXKpYf_LLJQBZHjGPmJo) <br>
 
+a. [image-kernels](https://setosa.io/ev/image-kernels/)
 
+- filter를 보면 _축소샘플링_ 으로인해 가장자리가 죽은 것을 볼 수 있다.
 
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/e351a7b9-b6cd-43e8-aff2-e974a748bcc8)
+
+b. 축소샘플링
+- 축소 샘플링을 진행할 때 : `padding='valid'`
+- 축소 샘플링을 진행 안할 때 : `padding='same'`
+   - 이 때 원본 이미지의 가장자리를 0으로 채워넣어 작아질 만큼 이미지 크기를 키운다
+ 
 
 
 
