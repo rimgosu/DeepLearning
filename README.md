@@ -669,4 +669,89 @@ b. 축소샘플링
  
 
 
+## 언어지능
+
+<img width="616" alt="image" src="https://github.com/rimgosu/DeepLearning/assets/120752098/3a94ce1a-4b75-4a93-bbb5-e1aaf1f47c37">
+
+
+### 10월 4일
+
+> [ex04. 개 고양이 분류하기.ipynb](https://colab.research.google.com/drive/1AK7WZ7W1q4oUMXKpYf_LLJQBZHjGPmJo#scrollTo=MN2pq86e8D2P)
+
+#### 과대적합을 줄이는  방법들
+
+- 증식
+  - 장점 : 간단
+  - 단점 : 가짜는 가짜다. (급격한 성능 향상은 없다)
+  - epoch 수는 증가시켜주어야한다.
+- dropout()
+  - 층에 사용하는 퍼셉트론의 수를 설정한 비율만큼 사용하지 않는 방법
+  - epoch마다 사용하지 않는 퍼셉트론은 랜덤 
+- BatchNormalization() : 정규화
+  - CNN층 = Conv (특성추출) + Maxpooling (크기 축소)
+  - Conv층의 파라미터를 정규화(평균 0, 분산 1) <br>
+  => 음수가 발생 <br>
+  => relu를 적용하면 <br>
+  => 음수가 사라지는 문제 => leaky relu
+- GlobalAveragePooling2D()
+  - CNN에서 가장 문제가 되는 층 : Maxpooling 층 <br>
+  => CNN 속도의 60% 이상을 차지 (느리다)
+  - Maxpooling2D+ Flatten()
+  - Dense 층과 연결되는 층에 사용
+
+#### Dropout
+```
+from tensorflow.keras.layers import Dropout, BatchNormalization, GlobalAveragePooling2D
+```
+
+- Dropout 층은 파라미터 수 차이가 커서 과적합이 발생하기 쉬운 층과 층 사이에 집어넣는다.
+```
+# 모델의 층, 파라미터 수 확인
+model1.summary()
+```
+
+```
+# Dropout 층 추가
+model1.add(Dropout(0.5))
+
+# 드롭아웃 층을 넣고 모델을 학습하면 과적합이 살짝 줄어든 것을 볼 수 있다.
+```
+
+
+#### GlobalAveragePooling
+
+- 층을 추가하면 파라미터간의 차이가 확 줄어드는 것을 볼 수있다.
+```
+# GlobalAveragePooling 층 추가
+model1.add(GlobalAveragePooling2D())
+
+# 이 층으로 학습을 진행하면 정확도는 매우 떨어지지만, 과적합이 상당히 개선된 것을 볼 수 있다.
+```
+
+
+#### BatchNormalization
+- Conv2D()와 Activation() 층 사이에 배치
+- Activation()이 정규화 기능을 일부 수행 => Activation() 다음에 배치하면 효과가 떨어짐
+- 원칙 : C + B + A + M => 근데 일반적으로 : C + A + B + M
+- 성능이 확실하게 향상되는 게 장점이다.
+- 단점 : 왜 좋아지는지 알 길이 없다.
+
+
+
+
+#### 전이학습
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/72bc4af4-9b98-4f28-867b-695c65507009)
+
+- 전이학습 하는 이유
+  - 데이터가 부족
+  - 설계한 신경망이 그닥 좋지 못하다
+
+- 전이학습의 종류
+  - 특성 추출 : CNN층의 가중치를 그대로 사용
+  - 미세 조정 (fine tuning) : CNN층의 가중치를 일부 살짝 변경해서 사용
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/2f5dc397-008f-4c61-88e8-12563682bd47)
+
+
+
 
