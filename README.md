@@ -755,3 +755,122 @@ model1.add(GlobalAveragePooling2D())
 
 
 
+### 10월 6일
+#### 전이학습-2
+
+> [ex04. 개 고양이 분류하기.ipynb](https://colab.research.google.com/drive/1AK7WZ7W1q4oUMXKpYf_LLJQBZHjGPmJo#scrollTo=MN2pq86e8D2P)
+
+- VGG 다운로드
+
+```
+from tensorflow.keras.applications import VGG16
+
+# weights : 사용할 가중치의 종류 (imagenet)
+# include_top = False : 모델을 전체 또는 특성추출기만 가져올 것인지 선택 (False : 특성추출기만 가져옴)
+conv_base = VGG16(
+    weights = "imagenet",
+    include_top = False,
+    input_shape = (150, 150, 3)
+)
+```
+
+##### 모델을 시각화하는 두 가지 방법
+1. summary
+```
+모델.summary()
+```
+2. plot_model
+   - summary 방식보다 좀 더 직관적임
+```
+plot_model(모델, show_shapes= True, dpi=60)
+```
+
+3. visual keras
+- visual keras 다운로드
+  
+```
+!pip install visualkeras
+```
+
+- 구로를 이미지로 시각화
+```
+import visualkeras
+
+visualkeras.layered_view(모델).show()
+visualkeras.layered_view(모델, legend=True)
+```
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/360de1bd-31fd-444f-9512-36bd75e40f7e)
+
+_이뿌당.._
+
+
+
+
+##### 모델 이어붙이기
+- 기본 모델을 이미 만들어져있는 conv_base 모델 층을 통째로 이어붙여 학습함.
+- 구조 : conv_base => 기존에 만들어져있던 모델
+```
+model1 = Sequential()
+
+model1.add(conv_base)
+model1.add(Flatten())
+
+model1.add(Dropout(0.5))
+model1.add(Dense(units = 64, activation = LeakyReLU(alpha=0.1)))
+model1.add(Dense(units = 128, activation = LeakyReLU(alpha=0.1)))
+model1.add(Dense(units = 64, activation = LeakyReLU(alpha=0.1)))
+model1.add(Dense(units = 32, activation = LeakyReLU(alpha=0.1)))
+model1.add(Dense(units = 1, activation = 'sigmoid'))
+
+model1.summary()
+```
+
+- 모델을 이어붙일 때, **동결**시켜주는 과정이 필요하다
+- 가져온 모델은 학습이 되지 않도록 설정
+- 동결 후 모델 학습하면 성능이 굉장히 향상되는 것을 볼 수 있다.
+
+```
+conv_base.trainable = False
+```
+
+- fit 결과 : val_accuracy가 89%까지 올라간 것을 볼 수 있다.
+```
+Epoch 10/10
+20/20 [==============================] - 9s 461ms/step - loss: 0.1216 - accuracy: 0.9515 - val_loss: 0.3081 - val_accuracy: 0.8850
+```
+
+
+##### 미세조정(fine tuning)
+- 분류기가 연결되는 모델의 층만 학습이 되도록 동결을 풀어주는 것
+
+| 층   | 1번층  | 2번층  | 3번층  | 4번층  | 5번층  |
+| ---- | ------ | ------ | ------ | ------ | ------ |
+| 학습  | 학습x  | 학습x  | 학습x  | 학습x  | 학습o  |
+
+```
+conv_base.trainable = True
+set_trainable = False
+
+for layer in conv_base.layers:
+  if layer.name == "block5_conv1":
+    set_trainable = True
+
+  if set_trainable :
+    layer.trainable = True
+  else:
+    layer.trainable = False
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
