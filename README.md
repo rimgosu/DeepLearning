@@ -760,7 +760,7 @@ model1.add(GlobalAveragePooling2D())
 
 > [ex04. 개 고양이 분류하기.ipynb](https://colab.research.google.com/drive/1AK7WZ7W1q4oUMXKpYf_LLJQBZHjGPmJo#scrollTo=MN2pq86e8D2P)
 
-- VGG 다운로드
+##### VGG 다운로드
 
 ```
 from tensorflow.keras.applications import VGG16
@@ -863,7 +863,31 @@ for layer in conv_base.layers:
 ```
 
 
+##### Xception 모델
 
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/af695e44-364a-47e2-bfc8-1add9849c020)
+
+- 다음 코드를 작성해서 Xception 모델을 불러올 수 있다
+```
+from tensorflow.keras.applications import Xception
+
+conv_base2 = Xception(
+    weights ="imagenet",
+    include_top =False,
+    input_shape = (150, 150,3)
+)
+```
+
+- 시각화 해보면 굉장히 길고 복잡하다는 것을 알 수 있다
+- BatchNormalization 층이 추가되어 있는 것을 볼 수 있음.
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/d9f8c692-3e9e-4a11-a725-7ea478777d48)
+
+- 학습 결과 : val_accuracy가 97%로 성능이 매우 올라간 것을 볼 수 있다.
+```
+Epoch 10/10
+20/20 [==============================] - 9s 429ms/step - loss: 9.1577e-04 - accuracy: 1.0000 - val_loss: 0.1350 - val_accuracy: 0.9690
+```
 
 
 
