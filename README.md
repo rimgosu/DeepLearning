@@ -890,7 +890,8 @@ Epoch 10/10
 
 ## yolov7
 
-![image](https://github.com/rimgosu/DeepLearning/assets/120752098/b352e077-5c34-40dd-b4f3-9a54180ef8a5)
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/f4261778-7125-4471-949d-37fe1f965040)
+
 
 
 ### 10월 10일
