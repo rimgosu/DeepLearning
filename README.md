@@ -894,7 +894,7 @@ Epoch 10/10
 
 
 ## yolov7
-### 10웛 10일
+### 10월 10일
 
 > [프로젝트005_YoloV7기반_Custom데이터로_객체탐지.ipynb](https://colab.research.google.com/drive/1idh8nzKG8u0lbPk867Dc8jSbFSSOdkc7)
    - 이 프로젝트에 있는 튜토리얼 똑같이 따라하면 된다.
