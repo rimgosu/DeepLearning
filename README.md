@@ -669,11 +669,6 @@ b. 축소샘플링
  
 
 
-## 언어지능
-
-<img width="616" alt="image" src="https://github.com/rimgosu/DeepLearning/assets/120752098/3a94ce1a-4b75-4a93-bbb5-e1aaf1f47c37">
-
-
 ### 10월 4일
 
 > [ex04. 개 고양이 분류하기.ipynb](https://colab.research.google.com/drive/1AK7WZ7W1q4oUMXKpYf_LLJQBZHjGPmJo#scrollTo=MN2pq86e8D2P)
@@ -894,6 +889,10 @@ Epoch 10/10
 
 
 ## yolov7
+
+![image](https://github.com/rimgosu/DeepLearning/assets/120752098/b352e077-5c34-40dd-b4f3-9a54180ef8a5)
+
+
 ### 10월 10일
 
 > [프로젝트005_YoloV7기반_Custom데이터로_객체탐지.ipynb](https://colab.research.google.com/drive/1idh8nzKG8u0lbPk867Dc8jSbFSSOdkc7)
