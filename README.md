@@ -893,8 +893,16 @@ Epoch 10/10
 
 
 
+## yolov7
+### 10웛 10일
 
+> [프로젝트005_YoloV7기반_Custom데이터로_객체탐지.ipynb](https://colab.research.google.com/drive/1idh8nzKG8u0lbPk867Dc8jSbFSSOdkc7)
+   - 이 프로젝트에 있는 튜토리얼 똑같이 따라하면 된다.
+- Yolov5s, Yolov5m, YOlov5l, Yolov5x 있을 때 현재 컴퓨터론 l,x는 못쓴다.
 
+- [로보플로우 프로젝트](https://app.roboflow.com/lecture-2sthx)
+   - 어노테이션 작업을 위해 가장 많이 쓰는 사이트
+ 
 
 
 
